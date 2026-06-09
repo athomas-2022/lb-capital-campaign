@@ -652,6 +652,34 @@ p { margin: 0 0 1em; }
 .next-card p:last-child { margin-bottom: 0; }
 
 /* ---------- Foundation ---------- */
+.foundation-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  max-width: 560px;
+  margin: 0 auto 48px;
+  padding: 30px 32px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+}
+
+.foundation-stat .stat-number {
+  color: #fff;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  text-shadow: 0 2px 22px rgba(199, 32, 47, 0.45);
+}
+
+.foundation-stat .stat-label {
+  color: #c7d3e8;
+  font-size: 1.02rem;
+  max-width: none;
+  font-weight: 600;
+}
+
 .foundation-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
