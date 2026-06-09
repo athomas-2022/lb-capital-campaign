@@ -1,0 +1,15 @@
+# Internal documents — do NOT publish publicly
+*.docx
+*.pdf
+
+# Local dev / tooling
+.claude/
+.tmp_docx/
+.tmp_build/
+serve.ps1
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
