@@ -652,7 +652,7 @@ p { margin: 0 0 1em; }
 .next-card p:last-child { margin-bottom: 0; }
 
 .video-feature {
-  max-width: 420px;
+  max-width: 360px;
   margin: 4px auto 40px;
   text-align: center;
 }
@@ -670,7 +670,9 @@ p { margin: 0 0 1em; }
 .video-frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  /* 16:9 video height (56.25%) plus room for Google Drive's control bar */
+  height: 0;
+  padding-bottom: calc(56.25% + 52px);
   border-radius: 14px;
   overflow: hidden;
   background: #000;
@@ -687,7 +689,7 @@ p { margin: 0 0 1em; }
 
 /* Scale the video player down on phones */
 @media (max-width: 600px) {
-  .video-feature { max-width: 300px; }
+  .video-feature { max-width: 260px; }
   .video-feature h3 { font-size: 1.25rem; }
 }
 
