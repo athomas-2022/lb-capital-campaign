@@ -693,6 +693,9 @@ p { margin: 0 0 1em; }
 @media (max-width: 600px) {
   .video-feature { max-width: 260px; }
   .video-feature h3 { font-size: 1.25rem; }
+  /* Mobile Drive controls are taller — give them more room so they aren't clipped */
+  .video-frame { padding-bottom: calc(56.25% + 80px); }
+  .video-frame iframe { top: -72px; height: calc(100% + 80px); }
 }
 
 /* ---------- Foundation ---------- */
