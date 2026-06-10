@@ -686,6 +686,74 @@ p { margin: 0 0 1em; }
   padding-left: 2px;
 }
 
+/* ===== "Friday Night Lights" show — Stadium LED Lighting card lights up on interaction ===== */
+.lights-card.lights-ready {
+  position: relative;
+  overflow: hidden;
+  transition: background .55s ease, box-shadow .55s ease;
+}
+/* keep text above the light layers so it stays crisp */
+.lights-card.lights-ready > h3,
+.lights-card.lights-ready > .next-when,
+.lights-card.lights-ready > .project-amount,
+.lights-card.lights-ready > ul,
+.lights-card.lights-ready > .video-link { position: relative; z-index: 1; }
+
+/* lit state: card becomes a night sky */
+.lights-card.is-lit {
+  background: radial-gradient(130% 100% at 50% -15%, #1d3f72 0%, #0a1c40 52%, #06112b 100%);
+  box-shadow: 0 16px 55px rgba(70, 135, 235, .42), 0 0 95px rgba(120, 170, 255, .28);
+}
+.lights-card.is-lit h3 { color: #fff; text-shadow: 0 0 20px rgba(150, 195, 255, .7); }
+.lights-card.is-lit .next-when { color: #ff5d6b; }
+.lights-card.is-lit .project-amount { color: #ffd166; }
+.lights-card.is-lit ul { color: #cfdcf2; }
+.lights-card.is-lit .video-link { box-shadow: 0 0 26px rgba(199, 32, 47, .55); }
+
+/* overhead light banks shining down from the top */
+.lights-rig { position: absolute; inset: 0 0 auto 0; height: 0; pointer-events: none; z-index: 0; }
+.lights-flare {
+  position: absolute;
+  top: -60px;
+  width: 170px;
+  height: 170px;
+  transform: translateX(-50%);
+  opacity: 0;
+  background: radial-gradient(60% 70% at 50% 0%, rgba(255, 255, 255, .95), rgba(196, 223, 255, .45) 38%, rgba(150, 195, 255, 0) 72%);
+}
+.lights-flare:nth-child(1) { left: 20%; }
+.lights-flare:nth-child(2) { left: 50%; }
+.lights-flare:nth-child(3) { left: 80%; }
+.lights-card.is-lit .lights-flare { opacity: .9; }
+.lights-card.lights-play .lights-flare { animation: lb-flicker .85s ease both; }
+.lights-card.lights-play .lights-flare:nth-child(2) { animation-delay: .07s; }
+.lights-card.lights-play .lights-flare:nth-child(3) { animation-delay: .14s; }
+@keyframes lb-flicker {
+  0%   { opacity: 0; }
+  15%  { opacity: .55; }
+  26%  { opacity: .18; }
+  46%  { opacity: .85; }
+  62%  { opacity: .5; }
+  100% { opacity: .9; }
+}
+
+/* one bright sweep of light across the card */
+.lights-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  background: linear-gradient(115deg, transparent 33%, rgba(255, 255, 255, .5) 47%, rgba(190, 222, 255, .28) 53%, transparent 67%);
+  transform: translateX(-115%);
+}
+.lights-card.lights-play .lights-sweep { animation: lb-sweep 1.05s cubic-bezier(.4, 0, .2, 1) .18s both; }
+@keyframes lb-sweep {
+  0%   { opacity: 0; transform: translateX(-115%); }
+  14%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(115%); }
+}
+
 /* ---------- Foundation ---------- */
 .foundation-stat {
   display: flex;

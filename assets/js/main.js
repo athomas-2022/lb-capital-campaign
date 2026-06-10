@@ -161,3 +161,37 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').mat
     });
   });
 }
+
+/* "Friday Night Lights" show — the Stadium LED Lighting card lights up on any interaction */
+if (!reduceMotion) {
+  document.querySelectorAll('.lights-card').forEach((card) => {
+    card.classList.add('lights-ready');
+
+    const rig = document.createElement('div');
+    rig.className = 'lights-rig';
+    rig.setAttribute('aria-hidden', 'true');
+    rig.innerHTML = '<span class="lights-flare"></span><span class="lights-flare"></span><span class="lights-flare"></span>';
+    const sweep = document.createElement('span');
+    sweep.className = 'lights-sweep';
+    sweep.setAttribute('aria-hidden', 'true');
+    card.append(rig, sweep);
+
+    let offTimer;
+    const lightsOn = () => {
+      clearTimeout(offTimer);
+      card.classList.remove('lights-play');
+      void card.offsetWidth; // restart the one-shot flicker + sweep
+      card.classList.add('is-lit', 'lights-play');
+    };
+    const lightsOff = () => card.classList.remove('is-lit');
+
+    card.addEventListener('mouseenter', lightsOn);
+    card.addEventListener('mouseleave', lightsOff);
+    card.addEventListener('focusin', lightsOn);
+    card.addEventListener('focusout', lightsOff);
+    card.addEventListener('touchstart', () => {
+      lightsOn();
+      offTimer = setTimeout(lightsOff, 5000);
+    }, { passive: true });
+  });
+}
