@@ -651,6 +651,41 @@ p { margin: 0 0 1em; }
 
 .next-card p:last-child { margin-bottom: 0; }
 
+.video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 11px 20px;
+  background: linear-gradient(135deg, var(--lb-red), #a3121f);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.25;
+  text-decoration: none;
+  box-shadow: 0 10px 22px rgba(199, 32, 47, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(199, 32, 47, 0.42);
+}
+
+.video-link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 0.66rem;
+  padding-left: 2px;
+}
+
 /* ---------- Foundation ---------- */
 .foundation-stat {
   display: flex;
