@@ -652,7 +652,7 @@ p { margin: 0 0 1em; }
 .next-card p:last-child { margin-bottom: 0; }
 
 .video-feature {
-  max-width: 880px;
+  max-width: 540px;
   margin: 4px auto 44px;
   text-align: center;
 }
