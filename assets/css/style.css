@@ -685,6 +685,12 @@ p { margin: 0 0 1em; }
   border: 0;
 }
 
+/* Scale the video player down on phones */
+@media (max-width: 600px) {
+  .video-feature { max-width: 300px; }
+  .video-feature h3 { font-size: 1.25rem; }
+}
+
 /* ---------- Foundation ---------- */
 .foundation-stat {
   display: flex;
