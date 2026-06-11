@@ -686,47 +686,8 @@ p { margin: 0 0 1em; }
   padding-left: 2px;
 }
 
-/* Stadium Sound card — click-to-play fight song button (blue, to distinguish from the red video links) */
+/* Stadium Sound card — click anywhere on the card to play/pause the fight song (no button) */
 .sound-card { cursor: pointer; }
-
-.audio-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 16px;
-  padding: 11px 20px;
-  background: linear-gradient(135deg, var(--lb-blue), var(--lb-blue-deep));
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.9rem;
-  line-height: 1.25;
-  cursor: pointer;
-  box-shadow: 0 10px 22px rgba(27, 71, 153, 0.28);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.audio-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(27, 71, 153, 0.42);
-}
-
-.audio-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
-  font-size: 0.66rem;
-  padding-left: 2px;
-}
-
-.audio-toggle[aria-pressed="true"] .audio-icon { padding-left: 0; }
 
 .sound-card.is-playing {
   box-shadow: 0 0 0 2px var(--lb-blue), 0 18px 40px rgba(27, 71, 153, 0.3);
