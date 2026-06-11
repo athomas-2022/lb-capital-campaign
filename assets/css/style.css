@@ -844,6 +844,9 @@ p { margin: 0 0 1em; }
   100% { opacity: 0; }
 }
 
+/* TEMPORARY: social media icons hidden in the footer — delete this rule to bring them back */
+.social-links { display: none; }
+
 /* ---------- Foundation ---------- */
 .foundation-stat {
   display: flex;
