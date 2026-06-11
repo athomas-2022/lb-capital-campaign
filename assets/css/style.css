@@ -687,10 +687,57 @@ p { margin: 0 0 1em; }
 }
 
 /* Stadium Sound card — click anywhere on the card to play/pause the fight song (no button) */
-.sound-card { cursor: pointer; }
+.sound-card { position: relative; cursor: pointer; }
+.sound-card h3 { padding-right: 42px; } /* reserve room so the title never runs under the corner badge */
 
 .sound-card.is-playing {
   box-shadow: 0 0 0 2px var(--lb-blue), 0 18px 40px rgba(27, 71, 153, 0.3);
+}
+
+/* Tiny corner cue that the card is clickable for audio */
+.sound-hint {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(27, 71, 153, 0.1);
+  color: var(--lb-blue);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sound-hint svg { width: 16px; height: 16px; display: block; }
+
+.sound-card:hover .sound-hint {
+  background: rgba(27, 71, 153, 0.18);
+  transform: scale(1.08);
+}
+
+.sound-card.is-playing .sound-hint {
+  background: var(--lb-blue);
+  color: #fff;
+}
+
+/* gentle pulse to draw the eye when idle; stops while playing and for reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .sound-hint::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    animation: sound-hint-pulse 2.4s ease-out infinite;
+  }
+  .sound-card.is-playing .sound-hint::after { animation: none; }
+}
+
+@keyframes sound-hint-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(27, 71, 153, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(27, 71, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(27, 71, 153, 0); }
 }
 
 /* ===== Full-screen "Light Show" — a moving wave of stadium lights (the "Tsunami") ===== */
