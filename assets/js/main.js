@@ -175,6 +175,45 @@ if (donorWall) {
   }
 }
 
+/* Stadium Sound card — click anywhere on the card to play/pause the LB fight song.
+   Playback starts a couple seconds in to skip the intro. */
+const soundCard = document.querySelector('.sound-card');
+
+if (soundCard) {
+  const audio = soundCard.querySelector('.sound-audio');
+  const btn = soundCard.querySelector('.audio-toggle');
+  const icon = btn ? btn.querySelector('.audio-icon') : null;
+  const label = btn ? btn.querySelector('.audio-label') : null;
+  const START = 2.5; // seconds skipped at the start — raise/lower to trim more or less of the intro
+
+  if (audio && btn) {
+    const seekToStart = () => { try { audio.currentTime = START; } catch (e) {} };
+    // Pre-seek once metadata is ready so the very first play also skips the intro.
+    if (audio.readyState >= 1) seekToStart();
+    else audio.addEventListener('loadedmetadata', seekToStart, { once: true });
+
+    const reflect = (playing) => {
+      btn.setAttribute('aria-pressed', String(playing));
+      soundCard.classList.toggle('is-playing', playing);
+      if (icon) icon.innerHTML = playing ? '&#10074;&#10074;' : '&#9658;';
+      if (label) label.textContent = playing ? 'Pause fight song' : 'Hear our fight song';
+    };
+
+    soundCard.addEventListener('click', () => {
+      if (audio.paused) {
+        if (audio.currentTime < START || audio.ended) seekToStart();
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener('play', () => reflect(true));
+    audio.addEventListener('pause', () => reflect(false));
+    audio.addEventListener('ended', () => { reflect(false); seekToStart(); });
+  }
+}
+
 /* 3D tilt effect on cards — follows the cursor for a subtle depth feel */
 if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   document.querySelectorAll('.tilt').forEach((card) => {
