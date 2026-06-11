@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=16">
+<link rel="stylesheet" href="assets/css/style.css?v=17">
 </head>
 <body>
 
@@ -368,6 +368,7 @@
 
     <div class="donor-wall" data-reveal>
       <p class="donor-note">This list is inclusive of donors from all of our capital projects.</p>
+      <div class="donor-list-wrap">
       <ul class="donor-list">
         <li>Matt &amp; Amber Moser</li>
         <li>Nick &amp; Bev Ferris Family</li>
@@ -593,6 +594,11 @@
         <li>Sharon Kruse</li>
         <li>Wayne Homes</li>
       </ul>
+      </div>
+      <button class="donor-toggle" type="button" hidden aria-expanded="false">
+        <span class="donor-toggle-label">Show all donors</span>
+        <span class="chev" aria-hidden="true">&#9662;</span>
+      </button>
 
       <p class="donor-footnote">Thank you to the hundreds of donors who have made LB Athletics&rsquo; transformation possible. Names are listed as provided &mdash; if we&rsquo;ve missed or misspelled yours, please <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=lbcap2020@gmail.com&amp;su=Donor%20Recognition%20Update" target="_blank" rel="noopener">let us know</a>.</p>
     </div>
@@ -650,7 +656,7 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=15"></script>
+<script src="assets/js/main.js?v=16"></script>
 
 <!-- Cloudflare Web Analytics -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "89fefa28685141189f4ea874018af2b7"}'></script>

@@ -142,6 +142,39 @@ if (donorTabs.length) {
   });
 }
 
+/* Collapsible donor list — collapse to a preview with a "Show all" toggle.
+   Progressive enhancement: with no JS the full list shows and the button stays hidden. */
+const donorWall = document.querySelector('.donor-wall');
+
+if (donorWall) {
+  const wrap = donorWall.querySelector('.donor-list-wrap');
+  const toggle = donorWall.querySelector('.donor-toggle');
+  const label = toggle ? toggle.querySelector('.donor-toggle-label') : null;
+  const count = donorWall.querySelectorAll('.donor-list li').length;
+
+  if (wrap && toggle && label) {
+    wrap.classList.add('is-collapsed');
+    toggle.hidden = false;
+
+    const sync = () => {
+      const collapsed = wrap.classList.contains('is-collapsed');
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      label.textContent = collapsed ? `Show all ${count} donors` : 'Show fewer';
+    };
+    sync();
+
+    toggle.addEventListener('click', () => {
+      const collapsing = !wrap.classList.contains('is-collapsed');
+      wrap.classList.toggle('is-collapsed');
+      sync();
+      // When collapsing, bring the reader back up to the donor section instead of stranding them far below.
+      if (collapsing) {
+        donorWall.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      }
+    });
+  }
+}
+
 /* 3D tilt effect on cards — follows the cursor for a subtle depth feel */
 if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   document.querySelectorAll('.tilt').forEach((card) => {

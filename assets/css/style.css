@@ -1134,6 +1134,60 @@ p { margin: 0 0 1em; }
 
 .donor-footnote a { color: var(--lb-blue); font-weight: 700; }
 
+/* Collapsible donor list — JS adds .is-collapsed and reveals the toggle button.
+   With no JS the full list shows and the button stays hidden. */
+.donor-list-wrap { position: relative; }
+
+.donor-list-wrap.is-collapsed {
+  max-height: 380px;
+  overflow: hidden;
+}
+
+.donor-list-wrap.is-collapsed::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 90%);
+  pointer-events: none;
+}
+
+.donor-toggle {
+  display: block;
+  width: fit-content;
+  margin: 24px auto 0;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--lb-blue-deep);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 11px 26px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.donor-toggle[hidden] { display: none; }
+
+.donor-toggle:hover {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, var(--lb-blue), var(--lb-blue-deep));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(27, 71, 153, 0.32);
+}
+
+.donor-toggle .chev {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.donor-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+
 @media (max-width: 920px) {
   .donor-list { columns: 3; }
 }
