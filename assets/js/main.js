@@ -162,8 +162,35 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').mat
   });
 }
 
-/* "Friday Night Lights" show — the Stadium LED Lighting card lights up on any interaction */
+/* "Friday Night Lights" show — interacting with a lighting card lights it up AND
+   triggers a brief full-screen light show: a wave of stadium lights (the "Tsunami"). */
 if (!reduceMotion) {
+  // Build one reusable full-screen overlay
+  const lightShow = document.createElement('div');
+  lightShow.className = 'lightshow';
+  lightShow.setAttribute('aria-hidden', 'true');
+  const PODS = 9;
+  let pods = '';
+  for (let i = 0; i < PODS; i++) {
+    pods += '<span style="left:' + ((100 / (PODS + 1)) * (i + 1)) + '%;--i:' + i + '"></span>';
+  }
+  lightShow.innerHTML =
+    '<div class="ls-sky"></div><div class="ls-pods">' + pods + '</div>' +
+    '<div class="ls-beam ls-beam-1"></div><div class="ls-beam ls-beam-2"></div><div class="ls-beam ls-beam-3"></div>' +
+    '<div class="ls-wave"></div>';
+  document.body.appendChild(lightShow);
+
+  let cooling = false;
+  const playLightShow = () => {
+    if (cooling) return;            // debounce so it can't spam on repeated hovers
+    cooling = true;
+    lightShow.classList.remove('playing');
+    void lightShow.offsetWidth;     // restart the animation
+    lightShow.classList.add('playing');
+    setTimeout(() => lightShow.classList.remove('playing'), 2900);
+    setTimeout(() => { cooling = false; }, 3300);
+  };
+
   document.querySelectorAll('.lights-card').forEach((card) => {
     card.classList.add('lights-ready');
 
@@ -182,6 +209,7 @@ if (!reduceMotion) {
       card.classList.remove('lights-play');
       void card.offsetWidth; // restart the one-shot flicker + sweep
       card.classList.add('is-lit', 'lights-play');
+      playLightShow();
     };
     const lightsOff = () => card.classList.remove('is-lit');
 
