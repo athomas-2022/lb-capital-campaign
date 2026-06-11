@@ -182,7 +182,7 @@ const soundCard = document.querySelector('.sound-card');
 if (soundCard) {
   const audio = soundCard.querySelector('.sound-audio');
   const START = 3.5;        // seconds skipped at the start (cuts the intro)
-  const PLAY_SECONDS = 8;   // length of the clip before it stops
+  const PLAY_SECONDS = 13;  // length of the clip before it stops
   const FADE_SECONDS = 1.5; // fade-out tail (included in PLAY_SECONDS)
 
   if (audio) {
