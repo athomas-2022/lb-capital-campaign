@@ -162,25 +162,21 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').mat
   });
 }
 
-/* Full-screen light show — interacting with the lighting card flashes large red/blue
-   sections on and off in a sweep pattern across the screen. No effect on the card itself. */
+/* Full-screen light show — interacting with the lighting card triggers a wave of
+   stadium lights (the "Tsunami") sweeping across the screen. No effect on the card itself. */
 if (!reduceMotion) {
   const lightShow = document.createElement('div');
   lightShow.className = 'lightshow';
   lightShow.setAttribute('aria-hidden', 'true');
-
-  const COLS = 4, ROWS = 3;
-  const BLUE = '45, 110, 235', RED = '225, 45, 60', WHITE = '255, 255, 255';
-  let panels = '';
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
-      const delay = ((c + r) / (COLS - 1 + ROWS - 1)) * 1.0;      // diagonal sweep across the screen
-      let color = (r + c) % 2 === 0 ? BLUE : RED;                 // checkerboard of red & blue
-      if ((r === 0 && c === COLS - 1) || (r === ROWS - 1 && c === 0)) color = WHITE; // a couple of bright white pops
-      panels += '<span class="ls-panel" style="--c:' + color + ';--delay:' + delay.toFixed(2) + 's"></span>';
-    }
+  const PODS = 9;
+  let pods = '';
+  for (let i = 0; i < PODS; i++) {
+    pods += '<span style="left:' + ((100 / (PODS + 1)) * (i + 1)) + '%;--i:' + i + '"></span>';
   }
-  lightShow.innerHTML = '<div class="ls-sky"></div><div class="ls-grid">' + panels + '</div>';
+  lightShow.innerHTML =
+    '<div class="ls-sky"></div><div class="ls-pods">' + pods + '</div>' +
+    '<div class="ls-beam ls-beam-1"></div><div class="ls-beam ls-beam-2"></div><div class="ls-beam ls-beam-3"></div>' +
+    '<div class="ls-wave"></div>';
   document.body.appendChild(lightShow);
 
   let cooling = false;
@@ -190,8 +186,8 @@ if (!reduceMotion) {
     lightShow.classList.remove('playing');
     void lightShow.offsetWidth;     // restart the animation
     lightShow.classList.add('playing');
-    setTimeout(() => lightShow.classList.remove('playing'), 2100);
-    setTimeout(() => { cooling = false; }, 2400);
+    setTimeout(() => lightShow.classList.remove('playing'), 2900);
+    setTimeout(() => { cooling = false; }, 3300);
   };
 
   document.querySelectorAll('.lights-card').forEach((card) => {

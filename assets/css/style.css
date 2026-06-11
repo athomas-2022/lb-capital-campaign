@@ -686,7 +686,7 @@ p { margin: 0 0 1em; }
   padding-left: 2px;
 }
 
-/* ===== Full-screen "Light Show" — large red/blue sections flashing in a sweep pattern ===== */
+/* ===== Full-screen "Light Show" — a moving wave of stadium lights (the "Tsunami") ===== */
 .lightshow {
   position: fixed;
   inset: 0;
@@ -698,39 +698,81 @@ p { margin: 0 0 1em; }
 }
 .lightshow.playing {
   visibility: visible;
-  animation: ls-fade 2s ease both;
+  animation: ls-fade 2.8s ease both;
 }
-@keyframes ls-fade { 0% { opacity: 0; } 6% { opacity: 1; } 88% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ls-fade { 0% { opacity: 0; } 7% { opacity: 1; } 82% { opacity: 1; } 100% { opacity: 0; } }
 
-/* a mild night dim so the red/blue flashes pop */
+/* dim the scene to "night" so the lights pop */
 .ls-sky {
   position: absolute;
   inset: 0;
-  background: rgba(4, 9, 24, .5);
+  background: radial-gradient(125% 95% at 50% 118%, rgba(10, 22, 48, .18), rgba(4, 10, 26, .6));
 }
 
-/* grid of large sections that flash on and off across the screen */
-.ls-grid {
+/* a row of stadium light banks across the top that ripple on in a wave */
+.ls-pods { position: absolute; top: -3%; left: 0; right: 0; height: 0; }
+.ls-pods span {
   position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-}
-.ls-panel {
+  top: 0;
+  width: 20vw;
+  height: 62vh;
+  transform: translateX(-50%) scaleY(.6);
+  background: radial-gradient(50% 42% at 50% 0%, rgba(255, 255, 255, .92), rgba(192, 221, 255, .4) 30%, rgba(150, 195, 255, 0) 62%);
   opacity: 0;
-  /* --c is an "r, g, b" triplet set per panel (red / blue / white) */
-  background: radial-gradient(135% 135% at 50% 50%, rgba(var(--c), .72) 0%, rgba(var(--c), .42) 55%, rgba(var(--c), 0) 92%);
 }
-.lightshow.playing .ls-panel {
-  animation: ls-flash .85s ease-in-out both;
-  animation-delay: var(--delay);
+.lightshow.playing .ls-pods span {
+  animation: ls-pod 2.6s ease both;
+  animation-delay: calc(var(--i) * 0.085s);
 }
-@keyframes ls-flash {
-  0%   { opacity: 0; }
-  18%  { opacity: .9; }
-  36%  { opacity: 0; }
-  60%  { opacity: .72; }
+@keyframes ls-pod {
+  0%   { opacity: 0;   transform: translateX(-50%) scaleY(.6); }
+  16%  { opacity: .95; transform: translateX(-50%) scaleY(1); }
+  40%  { opacity: .25; }
+  62%  { opacity: .9; }
+  100% { opacity: 0;   transform: translateX(-50%) scaleY(1); }
+}
+
+/* sweeping spotlight beams */
+.ls-beam {
+  position: absolute;
+  top: -25%;
+  left: 50%;
+  width: 38vw;
+  height: 150vh;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, rgba(196, 223, 255, .26), rgba(196, 223, 255, 0) 68%);
+  filter: blur(10px);
+  opacity: 0;
+}
+.lightshow.playing .ls-beam-1 { animation: ls-beam 2.6s ease both; }
+.lightshow.playing .ls-beam-2 { animation: ls-beam 2.6s ease .22s both; }
+.lightshow.playing .ls-beam-3 { animation: ls-beam 2.6s ease .44s both; }
+@keyframes ls-beam {
+  0%   { opacity: 0; transform: translateX(-55vw) rotate(-20deg); }
+  18%  { opacity: 1; }
+  84%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(55vw) rotate(20deg); }
+}
+
+/* the wave crest of light sweeping across and back */
+.ls-wave {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 32vw;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .48) 45%, rgba(200, 225, 255, .28) 55%, transparent);
+  filter: blur(6px);
+  opacity: 0;
+  transform: translateX(-40vw) skewX(-8deg);
+}
+.lightshow.playing .ls-wave { animation: ls-wave 2.6s cubic-bezier(.45, 0, .2, 1) both; }
+@keyframes ls-wave {
+  0%   { opacity: 0; transform: translateX(-40vw) skewX(-8deg); }
+  12%  { opacity: 1; }
+  48%  { opacity: 1; transform: translateX(125vw) skewX(-8deg); }
+  54%  { transform: translateX(125vw) skewX(8deg); }
+  90%  { opacity: 1; transform: translateX(-40vw) skewX(8deg); }
   100% { opacity: 0; }
 }
 
