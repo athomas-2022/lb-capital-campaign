@@ -686,75 +686,7 @@ p { margin: 0 0 1em; }
   padding-left: 2px;
 }
 
-/* ===== "Friday Night Lights" show — Stadium LED Lighting card lights up on interaction ===== */
-.lights-card.lights-ready {
-  position: relative;
-  overflow: hidden;
-  transition: background .55s ease, box-shadow .55s ease;
-}
-/* keep text above the light layers so it stays crisp */
-.lights-card.lights-ready > h3,
-.lights-card.lights-ready > .next-when,
-.lights-card.lights-ready > .project-amount,
-.lights-card.lights-ready > ul,
-.lights-card.lights-ready > .video-link { position: relative; z-index: 1; }
-
-/* lit state: card becomes a night sky */
-.lights-card.is-lit {
-  background: radial-gradient(130% 100% at 50% -15%, #1d3f72 0%, #0a1c40 52%, #06112b 100%);
-  box-shadow: 0 16px 55px rgba(70, 135, 235, .42), 0 0 95px rgba(120, 170, 255, .28);
-}
-.lights-card.is-lit h3 { color: #fff; text-shadow: 0 0 20px rgba(150, 195, 255, .7); }
-.lights-card.is-lit .next-when { color: #ff5d6b; }
-.lights-card.is-lit .project-amount { color: #ffd166; }
-.lights-card.is-lit ul { color: #cfdcf2; }
-.lights-card.is-lit .video-link { box-shadow: 0 0 26px rgba(199, 32, 47, .55); }
-
-/* overhead light banks shining down from the top */
-.lights-rig { position: absolute; inset: 0 0 auto 0; height: 0; pointer-events: none; z-index: 0; }
-.lights-flare {
-  position: absolute;
-  top: -60px;
-  width: 170px;
-  height: 170px;
-  transform: translateX(-50%);
-  opacity: 0;
-  background: radial-gradient(60% 70% at 50% 0%, rgba(255, 255, 255, .95), rgba(196, 223, 255, .45) 38%, rgba(150, 195, 255, 0) 72%);
-}
-.lights-flare:nth-child(1) { left: 20%; }
-.lights-flare:nth-child(2) { left: 50%; }
-.lights-flare:nth-child(3) { left: 80%; }
-.lights-card.is-lit .lights-flare { opacity: .9; }
-.lights-card.lights-play .lights-flare { animation: lb-flicker .85s ease both; }
-.lights-card.lights-play .lights-flare:nth-child(2) { animation-delay: .07s; }
-.lights-card.lights-play .lights-flare:nth-child(3) { animation-delay: .14s; }
-@keyframes lb-flicker {
-  0%   { opacity: 0; }
-  15%  { opacity: .55; }
-  26%  { opacity: .18; }
-  46%  { opacity: .85; }
-  62%  { opacity: .5; }
-  100% { opacity: .9; }
-}
-
-/* one bright sweep of light across the card */
-.lights-sweep {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 2;
-  background: linear-gradient(115deg, transparent 33%, rgba(255, 255, 255, .5) 47%, rgba(190, 222, 255, .28) 53%, transparent 67%);
-  transform: translateX(-115%);
-}
-.lights-card.lights-play .lights-sweep { animation: lb-sweep 1.05s cubic-bezier(.4, 0, .2, 1) .18s both; }
-@keyframes lb-sweep {
-  0%   { opacity: 0; transform: translateX(-115%); }
-  14%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(115%); }
-}
-
-/* ===== Full-screen "Light Show" — a moving wave of stadium lights (the "Tsunami") ===== */
+/* ===== Full-screen "Light Show" — center-out burst + random screen-wide twinkles ===== */
 .lightshow {
   position: fixed;
   inset: 0;
@@ -766,82 +698,78 @@ p { margin: 0 0 1em; }
 }
 .lightshow.playing {
   visibility: visible;
-  animation: ls-fade 2.8s ease both;
+  animation: ls-fade 1.5s ease both;
 }
-@keyframes ls-fade { 0% { opacity: 0; } 7% { opacity: 1; } 82% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ls-fade { 0% { opacity: 0; } 9% { opacity: 1; } 74% { opacity: 1; } 100% { opacity: 0; } }
 
-/* dim the scene to "night" so the lights pop */
+/* dim the scene to "night" so the flashes pop harder (bigger brightness swing) */
 .ls-sky {
   position: absolute;
   inset: 0;
-  background: radial-gradient(125% 95% at 50% 118%, rgba(10, 22, 48, .18), rgba(4, 10, 26, .6));
+  background: radial-gradient(120% 100% at 50% 50%, rgba(6, 14, 34, .34), rgba(2, 7, 20, .74));
 }
 
-/* a row of stadium light banks across the top that ripple on in a wave */
-.ls-pods { position: absolute; top: -3%; left: 0; right: 0; height: 0; }
-.ls-pods span {
+/* center-out burst: a bright core that blooms outward from the middle */
+.ls-burst {
   position: absolute;
-  top: 0;
-  width: 20vw;
-  height: 62vh;
-  transform: translateX(-50%) scaleY(.6);
-  background: radial-gradient(50% 42% at 50% 0%, rgba(255, 255, 255, .92), rgba(192, 221, 255, .4) 30%, rgba(150, 195, 255, 0) 62%);
-  opacity: 0;
-}
-.lightshow.playing .ls-pods span {
-  animation: ls-pod 2.6s ease both;
-  animation-delay: calc(var(--i) * 0.085s);
-}
-@keyframes ls-pod {
-  0%   { opacity: 0;   transform: translateX(-50%) scaleY(.6); }
-  16%  { opacity: .95; transform: translateX(-50%) scaleY(1); }
-  40%  { opacity: .25; }
-  62%  { opacity: .9; }
-  100% { opacity: 0;   transform: translateX(-50%) scaleY(1); }
-}
-
-/* sweeping spotlight beams */
-.ls-beam {
-  position: absolute;
-  top: -25%;
+  top: 50%;
   left: 50%;
-  width: 38vw;
-  height: 150vh;
-  transform-origin: top center;
-  background: linear-gradient(to bottom, rgba(196, 223, 255, .26), rgba(196, 223, 255, 0) 68%);
-  filter: blur(10px);
+  width: 46vmax;
+  height: 46vmax;
+  margin: -23vmax 0 0 -23vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .98) 0%, rgba(205, 228, 255, .62) 16%, rgba(150, 195, 255, .16) 40%, rgba(150, 195, 255, 0) 62%);
   opacity: 0;
+  transform: scale(0);
 }
-.lightshow.playing .ls-beam-1 { animation: ls-beam 2.6s ease both; }
-.lightshow.playing .ls-beam-2 { animation: ls-beam 2.6s ease .22s both; }
-.lightshow.playing .ls-beam-3 { animation: ls-beam 2.6s ease .44s both; }
-@keyframes ls-beam {
-  0%   { opacity: 0; transform: translateX(-55vw) rotate(-20deg); }
-  18%  { opacity: 1; }
-  84%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(55vw) rotate(20deg); }
+.lightshow.playing .ls-burst   { animation: ls-burst .8s cubic-bezier(.15, .75, .25, 1) both; }
+.lightshow.playing .ls-burst-2 { animation: ls-burst .8s cubic-bezier(.15, .75, .25, 1) .12s both; }
+@keyframes ls-burst {
+  0%   { opacity: 0; transform: scale(0); }
+  12%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1); }
 }
 
-/* the wave crest of light sweeping across and back */
-.ls-wave {
+/* rays radiating outward from the center */
+.ls-rays {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 32vw;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .48) 45%, rgba(200, 225, 255, .28) 55%, transparent);
-  filter: blur(6px);
+  top: 50%;
+  left: 50%;
+  width: 220vmax;
+  height: 220vmax;
+  margin: -110vmax 0 0 -110vmax;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(190, 220, 255, .2) 2.5deg, rgba(255, 255, 255, 0) 6deg);
   opacity: 0;
-  transform: translateX(-40vw) skewX(-8deg);
+  transform: scale(.15) rotate(-8deg);
 }
-.lightshow.playing .ls-wave { animation: ls-wave 2.6s cubic-bezier(.45, 0, .2, 1) both; }
-@keyframes ls-wave {
-  0%   { opacity: 0; transform: translateX(-40vw) skewX(-8deg); }
-  12%  { opacity: 1; }
-  48%  { opacity: 1; transform: translateX(125vw) skewX(-8deg); }
-  54%  { transform: translateX(125vw) skewX(8deg); }
-  90%  { opacity: 1; transform: translateX(-40vw) skewX(8deg); }
-  100% { opacity: 0; }
+.lightshow.playing .ls-rays { animation: ls-rays 1.05s ease both; }
+@keyframes ls-rays {
+  0%   { opacity: 0; transform: scale(.15) rotate(-8deg); }
+  22%  { opacity: .7; }
+  100% { opacity: 0; transform: scale(1) rotate(8deg); }
+}
+
+/* random twinkles flashing on different parts of the screen — big brightness swings */
+.ls-twinkle {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  transform: translate(-50%, -50%) scale(.3);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(208, 230, 255, .75) 28%, rgba(160, 200, 255, 0) 70%);
+  opacity: 0;
+}
+.lightshow.playing .ls-twinkle {
+  animation: ls-twinkle var(--d) ease both;
+  animation-delay: var(--delay);
+}
+@keyframes ls-twinkle {
+  0%   { opacity: 0;  transform: translate(-50%, -50%) scale(.3); }
+  22%  { opacity: 1;  transform: translate(-50%, -50%) scale(1.15); }
+  38%  { opacity: .06; }
+  56%  { opacity: 1; }
+  72%  { opacity: .2; }
+  100% { opacity: 0;  transform: translate(-50%, -50%) scale(.55); }
 }
 
 /* TEMPORARY: social media icons hidden in the footer — delete this rule to bring them back */

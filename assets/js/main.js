@@ -162,64 +162,48 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').mat
   });
 }
 
-/* "Friday Night Lights" show — interacting with a lighting card lights it up AND
-   triggers a brief full-screen light show: a wave of stadium lights (the "Tsunami"). */
+/* Full-screen light show — interacting with the lighting card triggers a center-out
+   burst plus random twinkles flashing across the screen. No effect on the card itself. */
 if (!reduceMotion) {
-  // Build one reusable full-screen overlay
   const lightShow = document.createElement('div');
   lightShow.className = 'lightshow';
   lightShow.setAttribute('aria-hidden', 'true');
-  const PODS = 9;
-  let pods = '';
-  for (let i = 0; i < PODS; i++) {
-    pods += '<span style="left:' + ((100 / (PODS + 1)) * (i + 1)) + '%;--i:' + i + '"></span>';
+
+  let html = '<div class="ls-sky"></div><div class="ls-rays"></div>' +
+             '<div class="ls-burst"></div><div class="ls-burst ls-burst-2"></div>';
+  const TWINKLES = 24;
+  for (let i = 0; i < TWINKLES; i++) {
+    html += '<span class="ls-twinkle"></span>';
   }
-  lightShow.innerHTML =
-    '<div class="ls-sky"></div><div class="ls-pods">' + pods + '</div>' +
-    '<div class="ls-beam ls-beam-1"></div><div class="ls-beam ls-beam-2"></div><div class="ls-beam ls-beam-3"></div>' +
-    '<div class="ls-wave"></div>';
+  lightShow.innerHTML = html;
   document.body.appendChild(lightShow);
+
+  const twinkles = lightShow.querySelectorAll('.ls-twinkle');
+  const scatter = () => {
+    twinkles.forEach((t) => {
+      t.style.left = (4 + Math.random() * 92).toFixed(1) + '%';
+      t.style.top = (5 + Math.random() * 90).toFixed(1) + '%';
+      t.style.setProperty('--s', (1.2 + Math.random() * 3.2).toFixed(2) + 'vmin');
+      t.style.setProperty('--delay', (Math.random() * 0.8).toFixed(2) + 's');
+      t.style.setProperty('--d', (0.45 + Math.random() * 0.5).toFixed(2) + 's');
+    });
+  };
 
   let cooling = false;
   const playLightShow = () => {
     if (cooling) return;            // debounce so it can't spam on repeated hovers
     cooling = true;
+    scatter();                      // fresh random twinkle pattern each time
     lightShow.classList.remove('playing');
     void lightShow.offsetWidth;     // restart the animation
     lightShow.classList.add('playing');
-    setTimeout(() => lightShow.classList.remove('playing'), 2900);
-    setTimeout(() => { cooling = false; }, 3300);
+    setTimeout(() => lightShow.classList.remove('playing'), 1600);
+    setTimeout(() => { cooling = false; }, 1900);
   };
 
   document.querySelectorAll('.lights-card').forEach((card) => {
-    card.classList.add('lights-ready');
-
-    const rig = document.createElement('div');
-    rig.className = 'lights-rig';
-    rig.setAttribute('aria-hidden', 'true');
-    rig.innerHTML = '<span class="lights-flare"></span><span class="lights-flare"></span><span class="lights-flare"></span>';
-    const sweep = document.createElement('span');
-    sweep.className = 'lights-sweep';
-    sweep.setAttribute('aria-hidden', 'true');
-    card.append(rig, sweep);
-
-    let offTimer;
-    const lightsOn = () => {
-      clearTimeout(offTimer);
-      card.classList.remove('lights-play');
-      void card.offsetWidth; // restart the one-shot flicker + sweep
-      card.classList.add('is-lit', 'lights-play');
-      playLightShow();
-    };
-    const lightsOff = () => card.classList.remove('is-lit');
-
-    card.addEventListener('mouseenter', lightsOn);
-    card.addEventListener('mouseleave', lightsOff);
-    card.addEventListener('focusin', lightsOn);
-    card.addEventListener('focusout', lightsOff);
-    card.addEventListener('touchstart', () => {
-      lightsOn();
-      offTimer = setTimeout(lightsOff, 5000);
-    }, { passive: true });
+    card.addEventListener('mouseenter', playLightShow);
+    card.addEventListener('focusin', playLightShow);
+    card.addEventListener('touchstart', playLightShow, { passive: true });
   });
 }
