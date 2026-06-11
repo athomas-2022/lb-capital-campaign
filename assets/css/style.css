@@ -686,7 +686,7 @@ p { margin: 0 0 1em; }
   padding-left: 2px;
 }
 
-/* ===== Full-screen "Light Show" — center-out burst + random screen-wide twinkles ===== */
+/* ===== Full-screen "Light Show" — large red/blue sections flashing in a sweep pattern ===== */
 .lightshow {
   position: fixed;
   inset: 0;
@@ -698,78 +698,40 @@ p { margin: 0 0 1em; }
 }
 .lightshow.playing {
   visibility: visible;
-  animation: ls-fade 1.5s ease both;
+  animation: ls-fade 2s ease both;
 }
-@keyframes ls-fade { 0% { opacity: 0; } 9% { opacity: 1; } 74% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ls-fade { 0% { opacity: 0; } 6% { opacity: 1; } 88% { opacity: 1; } 100% { opacity: 0; } }
 
-/* dim the scene to "night" so the flashes pop harder (bigger brightness swing) */
+/* a mild night dim so the red/blue flashes pop */
 .ls-sky {
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 100% at 50% 50%, rgba(6, 14, 34, .34), rgba(2, 7, 20, .74));
+  background: rgba(4, 9, 24, .5);
 }
 
-/* center-out burst: a bright core that blooms outward from the middle */
-.ls-burst {
+/* grid of large sections that flash on and off across the screen */
+.ls-grid {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 46vmax;
-  height: 46vmax;
-  margin: -23vmax 0 0 -23vmax;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, .98) 0%, rgba(205, 228, 255, .62) 16%, rgba(150, 195, 255, .16) 40%, rgba(150, 195, 255, 0) 62%);
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+.ls-panel {
   opacity: 0;
-  transform: scale(0);
+  /* --c is an "r, g, b" triplet set per panel (red / blue / white) */
+  background: radial-gradient(135% 135% at 50% 50%, rgba(var(--c), .72) 0%, rgba(var(--c), .42) 55%, rgba(var(--c), 0) 92%);
 }
-.lightshow.playing .ls-burst   { animation: ls-burst .8s cubic-bezier(.15, .75, .25, 1) both; }
-.lightshow.playing .ls-burst-2 { animation: ls-burst .8s cubic-bezier(.15, .75, .25, 1) .12s both; }
-@keyframes ls-burst {
-  0%   { opacity: 0; transform: scale(0); }
-  12%  { opacity: 1; }
-  100% { opacity: 0; transform: scale(1); }
-}
-
-/* rays radiating outward from the center */
-.ls-rays {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 220vmax;
-  height: 220vmax;
-  margin: -110vmax 0 0 -110vmax;
-  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(190, 220, 255, .2) 2.5deg, rgba(255, 255, 255, 0) 6deg);
-  opacity: 0;
-  transform: scale(.15) rotate(-8deg);
-}
-.lightshow.playing .ls-rays { animation: ls-rays 1.05s ease both; }
-@keyframes ls-rays {
-  0%   { opacity: 0; transform: scale(.15) rotate(-8deg); }
-  22%  { opacity: .7; }
-  100% { opacity: 0; transform: scale(1) rotate(8deg); }
-}
-
-/* random twinkles flashing on different parts of the screen — big brightness swings */
-.ls-twinkle {
-  position: absolute;
-  width: var(--s);
-  height: var(--s);
-  transform: translate(-50%, -50%) scale(.3);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(208, 230, 255, .75) 28%, rgba(160, 200, 255, 0) 70%);
-  opacity: 0;
-}
-.lightshow.playing .ls-twinkle {
-  animation: ls-twinkle var(--d) ease both;
+.lightshow.playing .ls-panel {
+  animation: ls-flash .85s ease-in-out both;
   animation-delay: var(--delay);
 }
-@keyframes ls-twinkle {
-  0%   { opacity: 0;  transform: translate(-50%, -50%) scale(.3); }
-  22%  { opacity: 1;  transform: translate(-50%, -50%) scale(1.15); }
-  38%  { opacity: .06; }
-  56%  { opacity: 1; }
-  72%  { opacity: .2; }
-  100% { opacity: 0;  transform: translate(-50%, -50%) scale(.55); }
+@keyframes ls-flash {
+  0%   { opacity: 0; }
+  18%  { opacity: .9; }
+  36%  { opacity: 0; }
+  60%  { opacity: .72; }
+  100% { opacity: 0; }
 }
 
 /* TEMPORARY: social media icons hidden in the footer — delete this rule to bring them back */

@@ -162,43 +162,36 @@ if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').mat
   });
 }
 
-/* Full-screen light show — interacting with the lighting card triggers a center-out
-   burst plus random twinkles flashing across the screen. No effect on the card itself. */
+/* Full-screen light show — interacting with the lighting card flashes large red/blue
+   sections on and off in a sweep pattern across the screen. No effect on the card itself. */
 if (!reduceMotion) {
   const lightShow = document.createElement('div');
   lightShow.className = 'lightshow';
   lightShow.setAttribute('aria-hidden', 'true');
 
-  let html = '<div class="ls-sky"></div><div class="ls-rays"></div>' +
-             '<div class="ls-burst"></div><div class="ls-burst ls-burst-2"></div>';
-  const TWINKLES = 24;
-  for (let i = 0; i < TWINKLES; i++) {
-    html += '<span class="ls-twinkle"></span>';
+  const COLS = 4, ROWS = 3;
+  const BLUE = '45, 110, 235', RED = '225, 45, 60', WHITE = '255, 255, 255';
+  let panels = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const delay = ((c + r) / (COLS - 1 + ROWS - 1)) * 1.0;      // diagonal sweep across the screen
+      let color = (r + c) % 2 === 0 ? BLUE : RED;                 // checkerboard of red & blue
+      if ((r === 0 && c === COLS - 1) || (r === ROWS - 1 && c === 0)) color = WHITE; // a couple of bright white pops
+      panels += '<span class="ls-panel" style="--c:' + color + ';--delay:' + delay.toFixed(2) + 's"></span>';
+    }
   }
-  lightShow.innerHTML = html;
+  lightShow.innerHTML = '<div class="ls-sky"></div><div class="ls-grid">' + panels + '</div>';
   document.body.appendChild(lightShow);
-
-  const twinkles = lightShow.querySelectorAll('.ls-twinkle');
-  const scatter = () => {
-    twinkles.forEach((t) => {
-      t.style.left = (4 + Math.random() * 92).toFixed(1) + '%';
-      t.style.top = (5 + Math.random() * 90).toFixed(1) + '%';
-      t.style.setProperty('--s', (1.2 + Math.random() * 3.2).toFixed(2) + 'vmin');
-      t.style.setProperty('--delay', (Math.random() * 0.8).toFixed(2) + 's');
-      t.style.setProperty('--d', (0.45 + Math.random() * 0.5).toFixed(2) + 's');
-    });
-  };
 
   let cooling = false;
   const playLightShow = () => {
     if (cooling) return;            // debounce so it can't spam on repeated hovers
     cooling = true;
-    scatter();                      // fresh random twinkle pattern each time
     lightShow.classList.remove('playing');
     void lightShow.offsetWidth;     // restart the animation
     lightShow.classList.add('playing');
-    setTimeout(() => lightShow.classList.remove('playing'), 1600);
-    setTimeout(() => { cooling = false; }, 1900);
+    setTimeout(() => lightShow.classList.remove('playing'), 2100);
+    setTimeout(() => { cooling = false; }, 2400);
   };
 
   document.querySelectorAll('.lights-card').forEach((card) => {
