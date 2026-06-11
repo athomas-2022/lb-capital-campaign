@@ -175,32 +175,59 @@ if (donorWall) {
   }
 }
 
-/* Stadium Sound card — click anywhere on the card to play/pause the LB fight song.
-   Playback starts a couple seconds in to skip the intro. No button — the card itself is the trigger. */
+/* Stadium Sound card — click anywhere on the card to play a short clip of the LB fight song:
+   start a few seconds in (skip the intro), play ~8s, then fade out and stop. No button. */
 const soundCard = document.querySelector('.sound-card');
 
 if (soundCard) {
   const audio = soundCard.querySelector('.sound-audio');
-  const START = 2.5; // seconds skipped at the start — raise/lower to trim more or less of the intro
+  const START = 3.5;        // seconds skipped at the start (cuts the intro)
+  const PLAY_SECONDS = 8;   // length of the clip before it stops
+  const FADE_SECONDS = 1.5; // fade-out tail (included in PLAY_SECONDS)
 
   if (audio) {
+    let rafId = null;
+
     const seekToStart = () => { try { audio.currentTime = START; } catch (e) {} };
     // Pre-seek once metadata is ready so the very first play also skips the intro.
     if (audio.readyState >= 1) seekToStart();
     else audio.addEventListener('loadedmetadata', seekToStart, { once: true });
 
+    const stopClip = () => {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      audio.pause();
+      audio.volume = 1;
+      seekToStart();
+    };
+
+    // Drive the timed fade-out off the real playback position, frame by frame.
+    const tick = () => {
+      if (audio.paused) { rafId = null; return; }
+      const elapsed = audio.currentTime - START;
+      if (elapsed >= PLAY_SECONDS) { stopClip(); return; }
+      const fadeStart = PLAY_SECONDS - FADE_SECONDS;
+      audio.volume = elapsed > fadeStart
+        ? Math.max(0, 1 - (elapsed - fadeStart) / FADE_SECONDS)
+        : 1;
+      rafId = requestAnimationFrame(tick);
+    };
+
     soundCard.addEventListener('click', () => {
       if (audio.paused) {
         if (audio.currentTime < START || audio.ended) seekToStart();
+        audio.volume = 1;
         audio.play().catch(() => {});
       } else {
-        audio.pause();
+        stopClip();
       }
     });
 
-    audio.addEventListener('play', () => soundCard.classList.add('is-playing'));
+    audio.addEventListener('play', () => {
+      soundCard.classList.add('is-playing');
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    });
     audio.addEventListener('pause', () => soundCard.classList.remove('is-playing'));
-    audio.addEventListener('ended', () => { soundCard.classList.remove('is-playing'); seekToStart(); });
+    audio.addEventListener('ended', () => { soundCard.classList.remove('is-playing'); stopClip(); });
   }
 }
 
