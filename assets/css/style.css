@@ -1069,6 +1069,26 @@ p { margin: 0 0 1em; }
   margin: 16px 0 0;
 }
 
+.progress-dash-link {
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.progress-dash-link a {
+  display: inline-block;
+  color: var(--lb-blue);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.progress-dash-link a:hover {
+  color: var(--lb-red);
+  border-color: var(--lb-red);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .progress-fill { transition: none; }
 }
