@@ -302,8 +302,7 @@ if (commitOverlay) {
       amount: 'entry.84697686',
       level: 'entry.62043281',
       project: 'entry.1573963699',
-      recognition: 'entry.1725010829',
-      anonymous: 'entry.96586109'
+      recognition: 'entry.1725010829'
     }
   };
 
@@ -382,8 +381,7 @@ if (commitOverlay) {
       amount: form.amount.value.trim(),
       level: form.level.value,
       project: form.project.value,
-      recognition: form.recognition.value.trim(),
-      anonymous: form.anonymous.checked ? 'Yes' : ''
+      recognition: form.recognition.value.trim()
     };
 
     ['name', 'email', 'amount'].forEach((k) => {
