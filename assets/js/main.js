@@ -285,3 +285,137 @@ if (!reduceMotion) {
     card.addEventListener('touchstart', playLightShow, { passive: true });
   });
 }
+
+/* Commitment Card modal — opens a styled pledge form and posts it to the
+   committee's Google Form (responses collect into a Google Sheet). */
+const commitOverlay = document.querySelector('[data-commit-overlay]');
+
+if (commitOverlay) {
+  // Google Form backend. action = the form's /formResponse URL; map = each
+  // field name -> its Google Form entry id. Submissions land in the linked Sheet.
+  const COMMIT = {
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSdCv9HU_L3CIW1xf2BX-NeREs-2xAeXcHieoYR7-98jd35r3A/formResponse',
+    map: {
+      name: 'entry.1003847543',
+      email: 'entry.1329781320',
+      phone: 'entry.1120385269',
+      amount: 'entry.84697686',
+      level: 'entry.62043281',
+      project: 'entry.1573963699',
+      recognition: 'entry.1725010829',
+      anonymous: 'entry.96586109'
+    }
+  };
+
+  const modal = commitOverlay.querySelector('.commit-modal');
+  const form = commitOverlay.querySelector('[data-commit-form]');
+  const errorEl = commitOverlay.querySelector('[data-commit-error]');
+  const formView = commitOverlay.querySelector('[data-commit-view="form"]');
+  const successView = commitOverlay.querySelector('[data-commit-view="success"]');
+  const submitBtn = form.querySelector('.commit-submit');
+  let lastFocus = null;
+
+  const openModal = () => {
+    lastFocus = document.activeElement;
+    commitOverlay.hidden = false;
+    document.body.classList.add('commit-lock');
+    // force reflow so the opacity/transform transition runs
+    void commitOverlay.offsetWidth;
+    commitOverlay.classList.add('is-open');
+    const first = form.querySelector('input, select');
+    if (first) first.focus();
+  };
+
+  const closeModal = () => {
+    commitOverlay.classList.remove('is-open');
+    document.body.classList.remove('commit-lock');
+    const finish = () => {
+      commitOverlay.hidden = true;
+      // reset back to the form view for next time
+      formView.hidden = false;
+      successView.hidden = true;
+      if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+    };
+    if (reduceMotion) finish();
+    else setTimeout(finish, 240);
+  };
+
+  document.querySelectorAll('[data-commit-open]').forEach((btn) => {
+    btn.addEventListener('click', openModal);
+  });
+  commitOverlay.querySelectorAll('[data-commit-close]').forEach((btn) => {
+    btn.addEventListener('click', closeModal);
+  });
+  commitOverlay.addEventListener('mousedown', (e) => {
+    if (e.target === commitOverlay) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !commitOverlay.hidden) closeModal();
+  });
+
+  // Keep tab focus inside the dialog while it's open.
+  modal.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const items = modal.querySelectorAll('button, input, select, textarea, a[href]');
+    const focusable = Array.from(items).filter((el) => !el.disabled && el.offsetParent !== null);
+    if (!focusable.length) return;
+    const firstEl = focusable[0];
+    const lastEl = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === firstEl) { e.preventDefault(); lastEl.focus(); }
+    else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); firstEl.focus(); }
+  });
+
+  const showError = (msg) => {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+
+    const data = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      amount: form.amount.value.trim(),
+      level: form.level.value,
+      project: form.project.value,
+      recognition: form.recognition.value.trim(),
+      anonymous: form.anonymous.checked ? 'Yes' : ''
+    };
+
+    ['name', 'email', 'amount'].forEach((k) => {
+      form[k].setAttribute('aria-invalid', data[k] ? 'false' : 'true');
+    });
+    if (!data.name || !data.email || !data.amount) {
+      return showError('Please add your name, email, and a pledge amount.');
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      form.email.setAttribute('aria-invalid', 'true');
+      return showError('Please enter a valid email address.');
+    }
+
+    const payload = new URLSearchParams();
+    Object.keys(COMMIT.map).forEach((key) => {
+      if (data[key]) payload.append(COMMIT.map[key], data[key]);
+    });
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    // Google Forms doesn't send CORS headers, so we post no-cors (opaque
+    // response) and treat completion as success.
+    fetch(COMMIT.action, { method: 'POST', mode: 'no-cors', body: payload })
+      .then(() => {
+        formView.hidden = true;
+        successView.hidden = false;
+      })
+      .catch(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Commitment';
+        showError('Something went wrong sending your commitment. Please email lbcap2020@gmail.com and we’ll take care of it.');
+      });
+  });
+}

@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=21">
+<link rel="stylesheet" href="assets/css/style.css?v=22">
 </head>
 <body>
 
@@ -773,8 +773,8 @@
       <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=lbcap2020@gmail.com" target="_blank" rel="noopener">lbcap2020@gmail.com</a>
     </div>
     <div class="hero-actions center">
-      <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=lbcap2020@gmail.com&amp;su=LB%20Capital%20Campaign%20-%20I%20Want%20To%20Help" target="_blank" rel="noopener" class="btn btn-primary">Contact the Committee</a>
-      <a href="#projects" class="btn btn-ghost-on-light">Review Our Impact</a>
+      <button type="button" class="btn btn-primary" data-commit-open>Make Your Commitment</button>
+      <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=lbcap2020@gmail.com&amp;su=LB%20Capital%20Campaign%20-%20I%20Want%20To%20Help" target="_blank" rel="noopener" class="btn btn-ghost-on-light">Contact the Committee</a>
     </div>
   </div>
 </section>
@@ -810,7 +810,89 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=20"></script>
+<!-- Commitment Card modal -->
+<div class="commit-overlay" data-commit-overlay hidden>
+  <div class="commit-modal" role="dialog" aria-modal="true" aria-labelledby="commit-title" aria-describedby="commit-intro">
+    <button type="button" class="commit-close" data-commit-close aria-label="Close commitment form">&times;</button>
+
+    <div class="commit-body" data-commit-view="form">
+      <p class="eyebrow">Capital Campaign 2026</p>
+      <h2 id="commit-title">Make Your Commitment</h2>
+      <p id="commit-intro" class="commit-intro">Pledge your support for the future of LB Athletics. A committee member will follow up to arrange the details &mdash; there&rsquo;s no payment collected here.</p>
+
+      <form class="commit-form" data-commit-form novalidate>
+        <div class="commit-field">
+          <label for="cf-name">Your name <span class="req">*</span></label>
+          <input type="text" id="cf-name" name="name" autocomplete="name" required>
+        </div>
+
+        <div class="commit-row">
+          <div class="commit-field">
+            <label for="cf-email">Email <span class="req">*</span></label>
+            <input type="email" id="cf-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="commit-field">
+            <label for="cf-phone">Phone</label>
+            <input type="tel" id="cf-phone" name="phone" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="commit-row">
+          <div class="commit-field">
+            <label for="cf-amount">Pledge amount <span class="req">*</span></label>
+            <input type="text" id="cf-amount" name="amount" inputmode="numeric" placeholder="$1,000" required>
+          </div>
+          <div class="commit-field">
+            <label for="cf-level">Giving level</label>
+            <select id="cf-level" name="level">
+              <option value="">No preference</option>
+              <option value="Cornerstone">Cornerstone</option>
+              <option value="Legacy">Legacy</option>
+              <option value="Foundational">Foundational</option>
+              <option value="Friend">Friend of the Campaign</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="commit-field">
+          <label for="cf-project">I&rsquo;d like my gift to support</label>
+          <select id="cf-project" name="project">
+            <option value="Where needed most">Where it&rsquo;s needed most</option>
+            <option value="Stadium LED Lighting">Stadium LED Lighting</option>
+            <option value="Stadium Sound Upgrade">Stadium Sound Upgrade</option>
+            <option value="Field House Batting Cage">Field House Batting Cage</option>
+            <option value="Outdoor Batting Cage">Outdoor Batting Cage</option>
+            <option value="Weight Room Expansion">Weight Room Expansion</option>
+            <option value="EAGLE Foundation">EAGLE Foundation</option>
+          </select>
+        </div>
+
+        <div class="commit-field">
+          <label for="cf-recognition">Name as it should appear on the donor wall</label>
+          <input type="text" id="cf-recognition" name="recognition" placeholder="e.g. The Smith Family">
+          <label class="commit-check">
+            <input type="checkbox" id="cf-anon" name="anonymous" value="Yes">
+            <span>Please list my gift as <strong>Anonymous</strong></span>
+          </label>
+        </div>
+
+        <p class="commit-error" data-commit-error hidden></p>
+
+        <button type="submit" class="btn btn-primary commit-submit">Submit Commitment</button>
+        <p class="commit-fine">Your information goes only to the LB Capital Campaign Committee.</p>
+      </form>
+    </div>
+
+    <div class="commit-body commit-success" data-commit-view="success" hidden>
+      <div class="commit-check-mark" aria-hidden="true">&#10003;</div>
+      <h2>Thank you, Eagle Nation!</h2>
+      <p>Your commitment has been received. A committee member will reach out soon to arrange the details.</p>
+      <button type="button" class="btn btn-primary" data-commit-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js?v=22"></script>
 
 <!-- Cloudflare Web Analytics -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "89fefa28685141189f4ea874018af2b7"}'></script>

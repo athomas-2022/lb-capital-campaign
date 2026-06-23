@@ -1319,3 +1319,162 @@ p { margin: 0 0 1em; }
 
   .tilt { transform: none !important; }
 }
+
+/* ---------- Commitment Card modal ---------- */
+.commit-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5vh 16px;
+  overflow-y: auto;
+  background: rgba(10, 20, 50, 0.62);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.commit-overlay[hidden] { display: none; }
+.commit-overlay.is-open { opacity: 1; }
+
+.commit-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: var(--shadow-deep);
+  padding: 40px 38px 32px;
+  transform: translateY(14px) scale(0.985);
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.commit-overlay.is-open .commit-modal { transform: none; }
+
+.commit-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.commit-close:hover { background: var(--paper); color: var(--ink); }
+
+.commit-modal h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); }
+.commit-intro { color: var(--muted); font-size: 0.98rem; }
+
+.commit-form { margin-top: 18px; }
+
+.commit-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.commit-field { margin-bottom: 14px; }
+
+.commit-field label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.commit-field .req { color: var(--lb-red); }
+
+.commit-field input,
+.commit-field select {
+  width: 100%;
+  padding: 11px 13px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.commit-field input:focus,
+.commit-field select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--lb-blue);
+  box-shadow: 0 0 0 3px rgba(27, 71, 153, 0.16);
+}
+
+.commit-field input[aria-invalid="true"] {
+  border-color: var(--lb-red);
+  box-shadow: 0 0 0 3px rgba(199, 32, 47, 0.14);
+}
+
+.commit-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.commit-check input { width: auto; margin: 0; accent-color: var(--lb-blue); }
+.commit-check span { font-weight: 500; }
+
+.commit-error {
+  color: var(--lb-red);
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.commit-error[hidden] { display: none; }
+
+.commit-submit { width: 100%; margin-top: 6px; border: none; cursor: pointer; }
+.commit-submit[disabled] { opacity: 0.6; cursor: default; }
+
+.commit-fine {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+.commit-success { text-align: center; padding: 18px 0 8px; }
+.commit-check-mark {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lb-blue), var(--lb-blue-deep));
+  color: #fff;
+  font-size: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.commit-success .btn { margin-top: 14px; }
+
+body.commit-lock { overflow: hidden; }
+
+@media (max-width: 520px) {
+  .commit-modal { padding: 34px 22px 26px; }
+  .commit-row { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .commit-overlay,
+  .commit-modal { transition: none; }
+}
