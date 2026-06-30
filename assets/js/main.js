@@ -334,6 +334,10 @@ if (commitOverlay) {
       // reset back to the form view for next time
       formView.hidden = false;
       successView.hidden = true;
+      // clear the /commit deep-link hash so a reload doesn't reopen the modal
+      if (/^#commit/i.test(location.hash)) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
       if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
     };
     if (reduceMotion) finish();
@@ -343,6 +347,12 @@ if (commitOverlay) {
   document.querySelectorAll('[data-commit-open]').forEach((btn) => {
     btn.addEventListener('click', openModal);
   });
+
+  // Deep link: lbcapitalcampaigns.org/commit redirects to #commit, which opens the form on load.
+  const openFromHash = () => { if (/^#commit/i.test(location.hash)) openModal(); };
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+
   commitOverlay.querySelectorAll('[data-commit-close]').forEach((btn) => {
     btn.addEventListener('click', closeModal);
   });
