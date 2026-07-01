@@ -69,8 +69,12 @@ p { margin: 0 0 1em; }
 
 .lede { font-size: 1.15rem; color: var(--muted); }
 
-/* ---------- Scroll-reveal animation ---------- */
-[data-reveal] {
+/* ---------- Scroll-reveal animation ----------
+   Progressive enhancement: content is visible by default. The hidden
+   pre-reveal state applies only under `.js` (added by an inline script in
+   <head>), so no-JS visitors and non-scrolling/headless renderers never
+   see a blank section. JS then adds .is-visible as each element scrolls in. */
+.js [data-reveal] {
   opacity: 0;
   transform: translateY(36px);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -84,7 +88,7 @@ p { margin: 0 0 1em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  .js [data-reveal] {
     opacity: 1;
     transform: none;
     transition: none;
