@@ -4,6 +4,7 @@
   --lb-blue-deep: #102c63;
   --lb-blue-darker: #0a1c40;
   --lb-red: #c7202f;
+  --lb-red-deep: #a3121f;
   --lb-gray: #c1cbda;
   --lb-white: #ffffff;
   --lb-black: #000000;
@@ -12,6 +13,7 @@
   --muted: #5a6982;
   --paper: #f4f6fb;
   --line: #dfe5f0;
+  --on-dark-soft: #e3e9f6;
   --max-width: 1180px;
 
   --shadow-soft: 0 16px 40px rgba(16, 35, 75, 0.12);
@@ -274,7 +276,7 @@ p { margin: 0 0 1em; }
 
 .hero-lede {
   font-size: 1.2rem;
-  color: #e3e9f6;
+  color: var(--on-dark-soft);
   max-width: 620px;
 }
 
@@ -322,7 +324,7 @@ p { margin: 0 0 1em; }
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--lb-red), #a3121f);
+  background: linear-gradient(135deg, var(--lb-red), var(--lb-red-deep));
   color: #fff;
   box-shadow: 0 14px 30px rgba(199, 32, 47, 0.38);
 }
@@ -657,7 +659,7 @@ p { margin: 0 0 1em; }
   gap: 9px;
   margin-top: 16px;
   padding: 11px 20px;
-  background: linear-gradient(135deg, var(--lb-red), #a3121f);
+  background: linear-gradient(135deg, var(--lb-red), var(--lb-red-deep));
   color: #fff;
   border-radius: 8px;
   font-weight: 700;
@@ -744,7 +746,7 @@ p { margin: 0 0 1em; }
 .lightshow {
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  z-index: 900; /* decorative sweep: above content/nav (100), below modal (1000) */
   pointer-events: none;
   overflow: hidden;
   opacity: 0;
@@ -948,8 +950,8 @@ p { margin: 0 0 1em; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.18);
   color: var(--lb-gray);
@@ -1045,7 +1047,7 @@ p { margin: 0 0 1em; }
   height: 100%;
   width: 0;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--lb-red), #a3121f);
+  background: linear-gradient(135deg, var(--lb-red), var(--lb-red-deep));
   box-shadow: 0 4px 14px rgba(199, 32, 47, 0.4);
   transition: width 1.6s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
@@ -1369,10 +1371,10 @@ p { margin: 0 0 1em; }
 
 .commit-close {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 38px;
-  height: 38px;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: transparent;
   color: var(--muted);
@@ -1471,6 +1473,12 @@ p { margin: 0 0 1em; }
   color: var(--muted);
   margin: 6px 0 0;
   line-height: 1.4;
+}
+
+/* Placeholder contrast: --muted clears 4.5:1 on the --paper input bg (default gray does not) */
+.commit-field input::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 
 .commit-success { text-align: center; padding: 18px 0 8px; }

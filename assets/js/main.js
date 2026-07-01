@@ -400,10 +400,13 @@ if (commitOverlay) {
       form[k].setAttribute('aria-invalid', data[k] ? 'false' : 'true');
     });
     if (!data.name || !data.email || !data.amount) {
+      const firstBad = ['name', 'email', 'amount'].find((k) => !data[k]);
+      if (firstBad) form[firstBad].focus();
       return showError('Please add your name, email, and a pledge amount.');
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       form.email.setAttribute('aria-invalid', 'true');
+      form.email.focus();
       return showError('Please enter a valid email address.');
     }
 

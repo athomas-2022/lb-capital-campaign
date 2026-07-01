@@ -26,7 +26,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=24">
+<link rel="preload" as="image" href="assets/images/hero-banner.jpg">
+<link rel="stylesheet" href="assets/css/style.css?v=26">
 </head>
 <body>
 
@@ -136,7 +137,7 @@
     <div class="project-grid">
 
       <article class="project-card featured tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/stadium-turf-web.jpg" alt="LB Stadium turf and track"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/stadium-turf-web.jpg" alt="LB Stadium turf and track"></div>
         <div class="project-body">
           <span class="project-year">2021</span>
           <h3>Stadium Turf &amp; Track</h3>
@@ -146,7 +147,7 @@
       </article>
 
       <article class="project-card featured tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/fieldhouse-web.jpg" alt="Eagle Fieldhouse exterior"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/fieldhouse-web.jpg" alt="Eagle Fieldhouse exterior"></div>
         <div class="project-body">
           <span class="project-year">2021&ndash;2022</span>
           <h3>Eagle Fieldhouse</h3>
@@ -156,7 +157,7 @@
       </article>
 
       <article class="project-card tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Donor%20recognition%20wall.png" alt="Athletic complex recognition walls"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Donor%20recognition%20wall.png" alt="Athletic complex recognition walls"></div>
         <div class="project-body">
           <span class="project-year">2022</span>
           <h3>Athletic Complex Entry &amp; Recognition</h3>
@@ -166,7 +167,7 @@
       </article>
 
       <article class="project-card tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Baseball%20field%20turf%20and%20backstop.png" alt="Turf baseball field and backstop"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Baseball%20field%20turf%20and%20backstop.png" alt="Turf baseball field and backstop"></div>
         <div class="project-body">
           <span class="project-year">2021&ndash;2022</span>
           <h3>Baseball Field Turf &amp; Backstop</h3>
@@ -176,7 +177,7 @@
       </article>
 
       <article class="project-card tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Pat%20Wagner-Jack%20Quisno%20Legacy.jpg" alt="Jack Quisno and Pat Wagner recognition wall"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Pat%20Wagner-Jack%20Quisno%20Legacy.jpg" alt="Jack Quisno and Pat Wagner recognition wall"></div>
         <div class="project-body">
           <span class="project-year">Legacy Recognition</span>
           <h3>Jack Quisno &amp; Pat Wagner</h3>
@@ -187,8 +188,8 @@
 
       <article class="project-card tilt" data-reveal>
         <div class="project-media split">
-          <img src="assets/images/Golf%20Simulator.png" alt="Golf simulator space">
-          <img src="assets/images/Wrestling%20Room.png" alt="Wrestling room space">
+          <img loading="lazy" src="assets/images/Golf%20Simulator.png" alt="Golf simulator space">
+          <img loading="lazy" src="assets/images/Wrestling%20Room.png" alt="Wrestling room space">
         </div>
         <div class="project-body">
           <span class="project-year">2023</span>
@@ -199,7 +200,7 @@
       </article>
 
       <article class="project-card tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Steve%20Williman%20Court%20Refinished.png" alt="Gymnasium with refinished Steve Williman Court"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Steve%20Williman%20Court%20Refinished.png" alt="Gymnasium with refinished Steve Williman Court"></div>
         <div class="project-body">
           <span class="project-year">2023</span>
           <h3>Gymnasium Maintenance &amp; &ldquo;Steve Williman Court&rdquo;</h3>
@@ -208,7 +209,7 @@
       </article>
 
       <article class="project-card featured tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Softball%20field%20turf%20and%20backstop.png" alt="Softball field with new turf and backstop"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Softball%20field%20turf%20and%20backstop.png" alt="Softball field with new turf and backstop"></div>
         <div class="project-body">
           <span class="project-year">2024&ndash;2025</span>
           <h3>Softball Field Turf &amp; Backstop</h3>
@@ -218,7 +219,7 @@
       </article>
 
       <article class="project-card tilt" data-reveal>
-        <div class="project-media"><img src="assets/images/Scoreboard.jpeg" alt="LB stadium videoboard scoreboard"></div>
+        <div class="project-media"><img loading="lazy" src="assets/images/Scoreboard.jpeg" alt="LB stadium videoboard scoreboard"></div>
         <div class="project-body">
           <span class="project-year">2025</span>
           <h3>Stadium Videoboard</h3>
@@ -786,7 +787,7 @@
 <footer class="site-footer">
   <div class="container footer-inner">
     <div class="brand footer-brand">
-      <img src="assets/images/lb-logo.png" alt="LB Eagles logo" class="brand-logo footer-logo">
+      <img loading="lazy" src="assets/images/lb-logo.png" alt="LB Eagles logo" class="brand-logo footer-logo">
       <span class="brand-text">LB Capital Campaign Committee</span>
     </div>
     <p>A sub-committee of the LB Athletic Boosters, working with LB Local Schools to fund the future of LB Athletics.</p>
@@ -886,7 +887,7 @@
           <input type="text" id="cf-recognition" name="recognition" placeholder="e.g. The Smith Family">
         </div>
 
-        <p class="commit-error" data-commit-error hidden></p>
+        <p class="commit-error" data-commit-error role="alert" hidden></p>
 
         <button type="submit" class="btn btn-primary commit-submit">Submit Commitment</button>
         <p class="commit-fine">Your information goes only to the LB Capital Campaign Committee.</p>
@@ -902,7 +903,7 @@
   </div>
 </div>
 
-<script src="assets/js/main.js?v=25"></script>
+<script src="assets/js/main.js?v=26"></script>
 
 <!-- Cloudflare Web Analytics -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "89fefa28685141189f4ea874018af2b7"}'></script>
