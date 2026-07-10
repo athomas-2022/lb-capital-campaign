@@ -297,6 +297,24 @@ p { margin: 0 0 1em; text-wrap: pretty; }
   max-width: 620px;
 }
 
+/* Affiliation chip — re-emphasizes that the Campaign is part of the Boosters */
+.hero-affiliation {
+  display: inline-block;
+  text-align: center;
+  margin: 2px 0 22px;
+  padding: 7px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--on-dark-soft);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+.hero-affiliation strong {
+  color: #fff;
+  font-weight: 800;
+}
+
 .hero-stat {
   display: flex;
   align-items: baseline;
